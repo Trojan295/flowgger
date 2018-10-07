@@ -10,6 +10,7 @@ build = "build.rs"
 [features]
 capnp-recompile = ["capnpc"]
 coroutines = ["coio"]
+elasticsearch = ["rs-es"]
 
 default = ["kafka"]
 
@@ -36,6 +37,10 @@ optional = true
 [dependencies.kafka]
 git = "https://github.com/spicavigo/kafka-rust"
 features = ["snappy", "gzip", "security"]
+optional = true
+
+[dependencies.rs-es]
+version = "0.10"
 optional = true
 
 [dependencies.openssl]

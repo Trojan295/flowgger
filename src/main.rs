@@ -6,6 +6,8 @@ extern crate coio;
 extern crate flate2;
 #[cfg(feature = "kafka")]
 extern crate kafka;
+#[cfg(feature = "elasticsearch")]
+extern crate rs_es;
 extern crate openssl;
 extern crate rand;
 extern crate redis;
@@ -27,10 +29,10 @@ fn main() {
         .about("A fast, simple and lightweight data collector")
         .arg(
             Arg::with_name("config_file")
-                .help("Configuration file")
-                .value_name("FILE")
-                .index(1),
-        ).get_matches();
+            .help("Configuration file")
+            .value_name("FILE")
+            .index(1),
+            ).get_matches();
     let config_file = matches
         .value_of("config_file")
         .unwrap_or(DEFAULT_CONFIG_FILE);

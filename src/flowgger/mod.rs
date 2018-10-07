@@ -19,6 +19,8 @@ use self::input::{TcpCoInput, TlsCoInput};
 use self::merger::{LineMerger, Merger, NulMerger, SyslenMerger};
 #[cfg(feature = "kafka")]
 use self::output::KafkaOutput;
+#[cfg(feature = "elasticsearch")]
+use self::output::{ElasticsearchOutput};
 use self::output::{DebugOutput, Output, TlsOutput};
 use std::error::Error;
 use std::sync::mpsc::{sync_channel, Receiver, SyncSender};
@@ -77,10 +79,22 @@ fn get_output_kafka(_config: &Config) -> ! {
     panic!("Support for Kafka hasn't been compiled in")
 }
 
+#[cfg(feature = "elasticsearch")]
+fn get_output_elasticsearch(config: &Config) -> Box<Output> {
+    Box::new(ElasticsearchOutput::new(config)) as Box<Output>
+}
+
+#[cfg(not(feature = "elasticsearch"))]
+fn get_output_elasticsearch(_config: &Config) -> ! {
+    panic!("Support for Elasticsearch hasn't been compiled in")
+}
+
+
 fn get_output(output_type: &str, config: &Config) -> Box<Output> {
     match output_type {
         "stdout" | "debug" => Box::new(DebugOutput::new(config)) as Box<Output>,
         "kafka" => get_output_kafka(config),
+        "elasticsearch" => get_output_elasticsearch(config),
         "tls" | "syslog-tls" => Box::new(TlsOutput::new(config)) as Box<Output>,
         _ => panic!("Invalid output type: {}", output_type),
     }
@@ -93,7 +107,7 @@ pub fn start(config_file: &str) {
             "Unable to read the config file [{}]: {}",
             config_file,
             e.description()
-        ),
+            ),
     };
     let input_format = config
         .lookup("input.format")
