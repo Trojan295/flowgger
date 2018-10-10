@@ -1,5 +1,3 @@
-cargo-features = ["edition"]
-
 [package]
 edition = "2018"
 name = "flowgger"
@@ -10,7 +8,7 @@ build = "build.rs"
 [features]
 capnp-recompile = ["capnpc"]
 coroutines = ["coio"]
-elasticsearch = ["rs-es"]
+elasticsearch = ["hyper"]
 
 default = ["kafka"]
 
@@ -39,8 +37,8 @@ git = "https://github.com/spicavigo/kafka-rust"
 features = ["snappy", "gzip", "security"]
 optional = true
 
-[dependencies.rs-es]
-version = "0.10"
+[dependencies.hyper]
+version = "~0.12"
 optional = true
 
 [dependencies.openssl]

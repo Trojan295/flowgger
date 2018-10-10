@@ -7,7 +7,7 @@ extern crate flate2;
 #[cfg(feature = "kafka")]
 extern crate kafka;
 #[cfg(feature = "elasticsearch")]
-extern crate rs_es;
+extern crate hyper;
 extern crate openssl;
 extern crate rand;
 extern crate redis;

@@ -8,11 +8,11 @@
 # type = "stdin"
 
 ### Syslog over UDP
-# type = "udp"
+type = "udp"
 # listen = "0.0.0.0:514"
 
 ### TCP
-type = "tcp"
+# type = "tcp"
 listen = "0.0.0.0:6514"
 timeout = 3600
 
@@ -56,7 +56,7 @@ timeout = 3600
 
 
 ### Input format and parameters
-# format = "ltsv"
+format = "ltsv"
 # queuesize = 1000000
 # [input.ltsv_schema]
 # counter = "u64"
@@ -70,7 +70,12 @@ timeout = 3600
 [output]
 
 ### Debug output (stdout)
-type = "stdout"
+# type = "stdout"
+
+### Elasticsearch output
+type = "elasticsearch"
+elasticsearch_endpoint = "http://localhost:9200"
+elasticsearch_index = "flowgger"
 
 ### Kafka output
 # type = "kafka"
